@@ -1,7 +1,10 @@
 //Initializing variables
 let playerSelection;
+let playerScore=0;
 let computerSelection;
-let results;
+let computerScore=0;
+let roundResults;
+let gameWinner=0;
 
 /* This function computerPlay generates the computer choice for the round.
 A random number between the numbers 1-3 is generated and then rock, paper or
@@ -27,35 +30,73 @@ let computerPlay = function() {
 let playRound = function(playerSelection, computerSelection) {
     playerSelection=playerSelection.toLowerCase();
     if (playerSelection==computerSelection){
-        results="tie";
+        roundResults="tie";
     } else if (playerSelection=="rock"){
         if (computerSelection=="paper")
         {
-            results="lose";
+            roundResults="lose";
         } else if (computerSelection=="scissors")
         {
-            results="win";
+            roundResults="win";
         } else {
-            results="error";
+            roundResults="error";
         }
     } else if (playerSelection=="paper"){
         if (computerSelection=="rock"){
-            results="win";
-        }
-        if (computerSelection=="scissors"){
-            results="lose";
+            roundResults="win";
+        } else if (computerSelection=="scissors"){
+            roundResults="lose";
         } else {
-            results="error";
+            roundResults="error";
         }
     } else if (playerSelection=="scissors"){
         if (computerSelection=="rock"){
-            results="lose";
-        }
-        if (computerSelection=="paper"){
-            results="win";
+            roundResults="lose";
+        }else if (computerSelection=="paper"){
+            roundResults="win";
         } else {
-            results="error";
+            roundResults="error";
         }
     }
-    return results;
+    return roundResults;
 }
+
+//Track game score
+let trackScore = function(){
+    if (roundResults=="win"){
+        playerScore++;
+    } else if (roundResults=="lose"){
+        computerScore++;
+    }
+}
+
+//Calculate game winner
+let calculateGameWinner = function(){
+    if (playerScore>computerScore){
+        gameWinner="player";
+        return gameWinner;
+    } else if (playerScore<computerScore){
+        gameWinner="computer";
+        return gameWinner;
+    }
+}
+
+//Start a five round game
+let game = function(){
+    for (let i=0;i<5;i++){
+        playerSelection=prompt("Please enter a choice (rock, paper, or scissors)");
+        computerSelection=computerPlay();
+        roundResults=playRound(playerSelection,computerSelection);
+        if (roundResults=="tie" || roundResults=="error"){
+            i--;
+        } else{
+        trackScore(roundResults);
+        }
+    }
+    gameWinner=calculateGameWinner();
+}
+
+//Start game and log results of game
+game();
+console.log("The game winner is",gameWinner);
+console.log("The final score is player:", playerScore,"computer:", computerScore);
