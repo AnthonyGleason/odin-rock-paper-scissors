@@ -83,6 +83,10 @@ let calculateGameWinner = function(){
 
 //Start a five round game
 let game = function(){
+    /*Sets player and computer scores to 0 so the player
+    can start a new game*/
+    playerScore=0;
+    computerScore=0;
     for (let i=0;i<5;i++){
         playerSelection=prompt("Please enter a choice (rock, paper, or scissors)");
         computerSelection=computerPlay();
